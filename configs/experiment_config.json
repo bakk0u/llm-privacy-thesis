@@ -1,0 +1,14 @@
+{
+  "dataset_path": "data/raw/vehicular_data.csv",
+  "output_path": "results/raw/results.csv",
+  "sample_size": 25,
+  "random_seed": 42,
+  "task_type": "concise_report",
+  "strategies": [
+    "direct_baseline",
+    "policy_first_structured",
+    "least_to_most",
+    "skeleton_of_thought"
+  ],
+  "max_records": null
+}

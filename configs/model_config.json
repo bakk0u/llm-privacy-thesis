@@ -1,0 +1,17 @@
+{
+  "ollama_url": "http://localhost:11434/api/generate",
+  "models": [
+    {
+      "name": "llama3.1:8b",
+      "temperature": 0.2,
+      "num_ctx": 2048,
+      "num_predict": 120
+    },
+    {
+      "name": "deepseek-r1:8b",
+      "temperature": 0.2,
+      "num_ctx": 2048,
+      "num_predict": 120
+    }
+  ]
+}

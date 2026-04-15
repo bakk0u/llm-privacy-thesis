@@ -1,0 +1,17 @@
+{
+  "timestamp": 1.5,
+  "batteryvoltage": 0.5,
+  "sochighlevel": 0.75,
+  "energyconsumptionaverage": 0.75,
+  "electricremaining": 0.75,
+  "mileage": 1.0,
+  "speed_kmh": 0.5,
+  "acceleration_kmh2": 0.5,
+  "vin": 2.0,
+  "device_id": 2.0,
+  "latitude": 2.0,
+  "longitude": 2.0,
+  "email": 2.0,
+  "phone": 2.0,
+  "full_name": 2.0
+}
