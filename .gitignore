@@ -1,6 +1,6 @@
+.idea/
+data/
+results/
 .venv/
 __pycache__/
 *.pyc
-data/raw/
-data/processed/
-results/
