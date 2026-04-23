@@ -1,4 +1,6 @@
 from __future__ import annotations
+from .matrix import build_comparison_matrix
+from src.config import KEY_TERMS
 
 import pandas as pd
 
@@ -12,12 +14,20 @@ from src.detection.utility import utility_score
 from src.evaluation.export import save_results, save_summary
 
 
+def generate_all_matrices(df):
+    return {
+        "leakage_score": build_comparison_matrix(df, "leakage_score"),
+        "exposure_rate": build_comparison_matrix(df, "exposure_rate"),
+        "utility_score": build_comparison_matrix(df, "utility_score"),
+    }
+
+
 def run_full_experiment() -> None:
     experiment = load_experiment_config()
     field_weights = load_field_weights()
     models = load_model_configs()
 
-    df = sample_dataset(load_dataset())
+    df = sample_dataset(load_dataset()).head(10)
     client = OllamaClient()
 
     rows: list[dict[str, object]] = []
@@ -30,6 +40,7 @@ def run_full_experiment() -> None:
             prompt_builder = STRATEGY_REGISTRY[strategy_name]
 
             for row_id, (_, series) in enumerate(df.iterrows()):
+                print(f"[DEBUG] Row {row_id + 1}/{len(df)} | model={model.name} | strategy={strategy_name}")
                 record = series.to_dict()
                 prompt = prompt_builder(record, experiment["task_type"])
                 output = client.generate(prompt, model)
@@ -37,7 +48,9 @@ def run_full_experiment() -> None:
                 findings = detect_field_leakage(output, record)
                 leakage = compute_leakage_score(findings, field_weights)
                 exposure = compute_exposure_rate(findings, record)
-                util = utility_score(output)
+                ground_truth = series["ground_truth"]
+
+                util = utility_score(output, ground_truth, KEY_TERMS)
 
                 rows.append({
                     "row_id": row_id,

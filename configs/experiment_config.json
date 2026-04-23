@@ -1,7 +1,7 @@
 {
   "dataset_path": "data/raw/vehicular_data.csv",
   "output_path": "results/raw/results.csv",
-  "sample_size": 25,
+  "sample_size": 5,
   "random_seed": 42,
   "task_type": "concise_report",
   "strategies": [

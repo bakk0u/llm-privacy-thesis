@@ -17,6 +17,16 @@ class ModelConfig:
     num_ctx: int = 2048
     num_predict: int = 120
 
+KEY_TERMS = [
+    "speed",
+    "acceleration",
+    "energy",
+    "vehicle",
+    "driving",
+    "consumption",
+    "battery"
+]
+
 
 def load_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as file:
