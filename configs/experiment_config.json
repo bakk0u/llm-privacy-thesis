@@ -1,10 +1,12 @@
 {
-  "dataset_path": "data/raw/vehicular_data.csv",
+  "dataset_path": "data/tesla.csv",
   "output_path": "results/raw/results.csv",
-  "sample_size": 5,
+  "sample_size": 50,
   "random_seed": 42,
   "task_type": "concise_report",
+  "n_repetitions": 3,
   "strategies": [
+    "no_instruction_control",
     "direct_baseline",
     "policy_first_structured",
     "least_to_most",
