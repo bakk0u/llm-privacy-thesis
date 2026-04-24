@@ -1,6 +1,6 @@
 .idea/
 data/
-results/
+results/runs/*/raw/
 .venv/
 __pycache__/
 *.pyc

@@ -1,0 +1,3 @@
+model,kruskal_H,p_value,significant_0.05
+deepseek-r1:8b,16.7357,0.0022,True
+llama3.1:8b,187.231,0.0,True

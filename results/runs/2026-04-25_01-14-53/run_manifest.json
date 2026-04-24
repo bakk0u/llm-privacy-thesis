@@ -1,0 +1,29 @@
+{
+  "run_id": "2026-04-25_01-14-53",
+  "experiment_config": {
+    "dataset_path": "data/tesla.csv",
+    "output_path": "results/raw/results.csv",
+    "sample_size": 50,
+    "random_seed": 42,
+    "task_type": "concise_report",
+    "n_repetitions": 3,
+    "strategies": [
+      "no_instruction_control",
+      "direct_baseline",
+      "policy_first_structured",
+      "least_to_most",
+      "skeleton_of_thought"
+    ],
+    "max_records": null
+  },
+  "models": [
+    "llama3.1:8b",
+    "deepseek-r1:8b"
+  ],
+  "n_records": 50,
+  "n_rows_total": 1500,
+  "driving_state_counts": {
+    "moving": 25,
+    "stationary": 25
+  }
+}
