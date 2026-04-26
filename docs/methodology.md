@@ -5,13 +5,22 @@ This project evaluates whether prompt engineering can reduce privacy leakage in 
 ## Pipeline
 1. Load telematics rows from CSV.
 2. Convert each row into a prompting task.
-3. Run multiple prompting strategies across one or more local Ollama models.
+3. Run five prompting strategies across the configured local Ollama models.
 4. Detect exact and partial leakage by matching output text against sensitive values present in the input row.
 5. Compute:
-   - leakage score
-   - exposure rate
-   - utility score
+   - `leakage_score`
+   - `normalized_leakage`
+   - `exposure_rate`
+   - `utility_score`
+   - PUT index
 6. Aggregate results by model and strategy.
+
+## Experiment setup
+- Dataset path: `data/tesla.csv`
+- Task type: `concise_report`
+- Sample size: 50 records
+- Repetitions: 3
+- Models: `llama3.1:8b`, `deepseek-r1:8b`
 
 ## Current prompting strategies
 - no_instruction_control: control condition with no privacy instruction.
@@ -21,5 +30,9 @@ This project evaluates whether prompt engineering can reduce privacy leakage in 
 - skeleton_of_thought: uses a structured answer skeleton with an explicit privacy gate before final output.
 
 ## Core outputs
-- `results/raw/results.csv`
-- `results/tables/summary_metrics.csv`
+- `results/runs/<run_id>/run_manifest.json`
+- `results/runs/<run_id>/tables/summary_metrics.csv`
+- `results/runs/<run_id>/tables/field_leakage_breakdown.csv`
+- `results/runs/<run_id>/tables/matrices/`
+- `results/runs/<run_id>/tables/significance/`
+- `results/runs/<run_id>/figures/put_scatter.png`
