@@ -1,7 +1,7 @@
 {
   "dataset_path": "data/tesla.csv",
   "output_path": "results/raw/results.csv",
-  "sample_size": 50,
+  "sample_size": null,
   "random_seed": 42,
   "task_type": "concise_report",
   "n_repetitions": 3,
