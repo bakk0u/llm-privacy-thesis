@@ -33,6 +33,8 @@ _PROMPT_EXCLUDED_FIELDS = {
     "email",
     "driver_id",
     "location",
+    "timestamp",
+    "mileage",
     "driving_state",
 }
 

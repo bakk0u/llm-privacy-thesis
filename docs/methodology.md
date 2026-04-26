@@ -14,10 +14,11 @@ This project evaluates whether prompt engineering can reduce privacy leakage in 
 6. Aggregate results by model and strategy.
 
 ## Current prompting strategies
-- direct_baseline
-- policy_first_structured
-- least_to_most
-- skeleton_of_thought
+- no_instruction_control: control condition with no privacy instruction.
+- direct_baseline: direct task prompt with brief privacy rules.
+- policy_first_structured: explicit privacy policy before the task.
+- least_to_most: decomposes the task into lower-risk operational observations before a final privacy review.
+- skeleton_of_thought: uses a structured answer skeleton with an explicit privacy gate before final output.
 
 ## Core outputs
 - `results/raw/results.csv`

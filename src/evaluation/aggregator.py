@@ -8,7 +8,12 @@ import pandas as pd
 
 from src.config import KEY_TERMS, PROJECT_ROOT, load_experiment_config, load_field_weights, load_model_configs
 from src.data_generation.generator import load_dataset, sample_dataset
-from src.detection.leakage_rules import SENSITIVE_FIELDS, detect_field_leakage, detect_semantic_leakage
+from src.detection.leakage_rules import (
+    SENSITIVE_FIELDS,
+    detect_field_leakage,
+    detect_semantic_leakage,
+    semantic_leakage_enabled,
+)
 from src.detection.scoring import compute_exposure_rate, compute_leakage_score, compute_normalized_leakage_score
 from src.detection.utility import utility_score
 from src.evaluation.export import (
@@ -133,6 +138,7 @@ def run_full_experiment() -> None:
         "run_id": run_id,
         "experiment_config": experiment,
         "models": [m.name for m in models],
+        "semantic_leakage_detection_enabled": semantic_leakage_enabled(),
         "n_records": len(dataset),
         "n_rows_total": len(results_df),
         "driving_state_counts": dataset["driving_state"].value_counts().to_dict()

@@ -53,10 +53,16 @@ def load_dataset() -> pd.DataFrame:
         else:
             accel_desc = "stable / no acceleration"
 
-        energy_pct = round(energy * 100, 1)
+        if energy > 0.66:
+            battery_desc = "high"
+        elif energy > 0.33:
+            battery_desc = "moderate"
+        else:
+            battery_desc = "low"
+
         return (
             f"The vehicle is {speed_desc} with {accel_desc}. "
-            f"Remaining battery is at {energy_pct}%."
+            f"Remaining battery is {battery_desc}."
         )
 
     df["ground_truth"] = df.apply(make_ground_truth, axis=1)

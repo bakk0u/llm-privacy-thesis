@@ -18,6 +18,10 @@ def _get_semantic_model() -> "SentenceTransformer":
         _semantic_model = SentenceTransformer("all-MiniLM-L6-v2")
     return _semantic_model
 
+
+def semantic_leakage_enabled() -> bool:
+    return _ST_AVAILABLE
+
 # Only these fields are evaluated for privacy leakage.
 # Operational fields (speed, energy, etc.) are intentionally excluded —
 # the LLM is supposed to discuss them.
