@@ -21,7 +21,7 @@ The framework combines:
 - Multi-strategy prompting evaluation across the same task and dataset sample.
 - Leakage, utility, and privacy-utility trade-off metrics.
 
-The current experiment uses 50 records, 3 repetitions per model-strategy pair, and 1,500 total generations.
+The final experiment is configured for a reproducible 1,000-record subset, 3 repetitions per model-strategy pair, and 30,000 total generations.
 
 ## Prompting Strategies
 

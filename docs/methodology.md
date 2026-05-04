@@ -18,7 +18,7 @@ This project evaluates whether prompt engineering can reduce privacy leakage in 
 ## Experiment setup
 - Dataset path: `data/tesla.csv`
 - Task type: `concise_report`
-- Sample size: 50 records
+- Sample size: 1,000 records
 - Repetitions: 3
 - Models: `llama3.1:8b`, `deepseek-r1:8b`
 

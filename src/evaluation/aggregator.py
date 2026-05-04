@@ -30,6 +30,7 @@ from src.prompting.base import STRATEGY_REGISTRY
 
 # Privacy-Utility Trade-off weight: how much to penalise leakage vs. reward utility.
 _PUT_ALPHA = 1.0
+_LARGE_GENERATION_WARNING_THRESHOLD = 10_000
 
 
 def generate_all_matrices(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
@@ -48,12 +49,30 @@ def run_full_experiment() -> None:
     models = load_model_configs()
     n_repetitions: int = int(experiment.get("n_repetitions", 1))
 
-    dataset = sample_dataset(load_dataset())
+    full_dataset = load_dataset()
+    dataset = sample_dataset(full_dataset)
     client = OllamaClient()
 
     rows: list[dict[str, object]] = []
     total = len(models) * len(experiment["strategies"]) * len(dataset) * n_repetitions
     done = 0
+    run_id = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    run_dir = PROJECT_ROOT / "results" / "runs" / run_id
+
+    print("\nExperiment pre-run summary")
+    print(f"Run ID                 : {run_id}")
+    print(f"Dataset size           : {len(full_dataset)}")
+    print(f"Selected sample size   : {len(dataset)}")
+    print(f"Models                 : {len(models)}")
+    print(f"Strategies             : {len(experiment['strategies'])}")
+    print(f"Repetitions            : {n_repetitions}")
+    print(f"Expected generations   : {total}")
+    print(f"Output directory       : {run_dir}")
+    if total > _LARGE_GENERATION_WARNING_THRESHOLD:
+        print(
+            "WARNING: expected generations exceed "
+            f"{_LARGE_GENERATION_WARNING_THRESHOLD}; this run may take a long time."
+        )
 
     for model in models:
         for strategy_name in experiment["strategies"]:
@@ -74,6 +93,7 @@ def run_full_experiment() -> None:
                     )
 
                     output = client.generate(prompt, model)
+                    generated_at = datetime.now().isoformat(timespec="seconds")
 
                     findings = detect_field_leakage(output, record, sensitive_only=True)
                     leakage = compute_leakage_score(findings, field_weights)
@@ -96,18 +116,22 @@ def run_full_experiment() -> None:
                     }
 
                     rows.append({
+                        "run_id": run_id,
+                        "record_id": int(record.get("record_id", row_id)),
                         "row_id": row_id,
                         "repetition": rep,
                         "driving_state": record.get("driving_state", "unknown"),
                         "model": model.name,
                         "strategy": strategy_name,
                         "prompt": prompt,
+                        "response": output,
                         "output": output,
                         "leakage_score": leakage,
                         "normalized_leakage_score": normalized_leakage,
                         "exposure_rate": exposure,
                         "utility_score": util,
                         "put_index": put_index,
+                        "timestamp": generated_at,
                         "has_leakage": int(bool(findings) or bool(semantic_findings)),
                         "has_lexical_leakage": int(bool(findings)),
                         "has_semantic_leakage": int(bool(semantic_findings)),
@@ -117,9 +141,6 @@ def run_full_experiment() -> None:
                     })
 
     results_df = pd.DataFrame(rows)
-
-    run_id = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    run_dir = PROJECT_ROOT / "results" / "runs" / run_id
 
     raw_dir    = run_dir / "raw"
     tables_dir = run_dir / "tables"

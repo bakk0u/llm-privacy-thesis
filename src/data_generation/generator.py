@@ -21,6 +21,7 @@ def _assign_driving_state(df: pd.DataFrame) -> pd.DataFrame:
 
 def load_dataset() -> pd.DataFrame:
     df = pd.read_csv("data/tesla.csv")
+    df["record_id"] = df.index.astype(int)
 
     df["driver_id"] = [f"DRV{i:05d}" for i in range(len(df))]
     df["email"] = [f"driver{i}@telematics-{i % 5}.org" for i in range(len(df))]
@@ -82,8 +83,18 @@ def sample_dataset(df: pd.DataFrame) -> pd.DataFrame:
     sample_size = config.get("sample_size", 50)
     random_seed = config.get("random_seed", 42)
 
-    if max_records:
+    if max_records is not None:
         return df.head(int(max_records)).copy()
+
+    if sample_size is None:
+        raise ValueError(
+            "sample_size is null and max_records is not set. "
+            "Set sample_size to a bounded integer before running the experiment."
+        )
+
+    sample_size = int(sample_size)
+    if sample_size <= 0:
+        raise ValueError("sample_size must be a positive integer.")
 
     if len(df) <= sample_size:
         return df.copy()
