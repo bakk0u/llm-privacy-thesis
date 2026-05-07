@@ -28,8 +28,11 @@ TASK_TEMPLATES: dict[str, str] = {
 # Fields excluded from the prompt shown to the LLM.
 # driving_state is excluded because it is a derived label (computed from speed),
 # not a raw sensor value — exposing it would inflate utility scores artificially.
+# record_id is an internal experiment identifier. Hiding it is cleaner than
+# treating an artificial bookkeeping value as a privacy target.
 _PROMPT_EXCLUDED_FIELDS = {
     "ground_truth",
+    "record_id",
     "email",
     "driver_id",
     "location",
