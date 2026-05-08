@@ -1,0 +1,8 @@
+model,deepseek-r1:8b,deepseek-r1:8b,llama3.1:8b,llama3.1:8b
+,mean,std,mean,std
+strategy,,,,
+direct_baseline,0.4627,0.0574,0.423,0.0411
+least_to_most,0.4419,0.06,0.3972,0.037
+no_instruction_control,0.4238,0.046,0.4135,0.0296
+policy_first_structured,0.4414,0.0483,0.415,0.0323
+skeleton_of_thought,0.4359,0.0663,0.455,0.0564

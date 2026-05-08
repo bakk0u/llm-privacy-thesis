@@ -1,0 +1,11 @@
+model,strategy,mileage,email,timestamp,location,driver_id
+deepseek-r1:8b,direct_baseline,0.0,0.0,0.0,0.0,0.0
+deepseek-r1:8b,least_to_most,0.0,0.0,0.0,0.0,0.0
+deepseek-r1:8b,no_instruction_control,0.0,0.0,0.0,0.0,0.0
+deepseek-r1:8b,policy_first_structured,0.0014,0.0,0.0,0.0,0.0
+deepseek-r1:8b,skeleton_of_thought,0.0,0.0,0.0,0.0,0.0
+llama3.1:8b,direct_baseline,0.0,0.0,0.0,0.0,0.0
+llama3.1:8b,least_to_most,0.0,0.0,0.0,0.0,0.0
+llama3.1:8b,no_instruction_control,0.0,0.0,0.0,0.0,0.0
+llama3.1:8b,policy_first_structured,0.0,0.0,0.0,0.0,0.0
+llama3.1:8b,skeleton_of_thought,0.0,0.0,0.0,0.0,0.0

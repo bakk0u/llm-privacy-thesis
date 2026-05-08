@@ -1,0 +1,11 @@
+model,strategy,avg_leakage_score,std_leakage_score,avg_normalized_leakage,avg_exposure_rate,avg_utility_score,std_utility_score,leakage_rate,avg_put_index
+deepseek-r1:8b,direct_baseline,0.0,0.0,0.0,0.0,0.4627,0.0574,0.0,0.4627
+deepseek-r1:8b,least_to_most,0.0,0.0,0.0,0.0,0.4419,0.06,0.0,0.4419
+deepseek-r1:8b,no_instruction_control,0.0,0.0,0.0,0.0,0.4238,0.046,0.0,0.4238
+deepseek-r1:8b,skeleton_of_thought,0.0,0.0,0.0,0.0,0.4359,0.0663,0.0,0.4359
+deepseek-r1:8b,policy_first_structured,0.0007,0.0189,0.0001,0.0003,0.4414,0.0483,0.0014,0.4413
+llama3.1:8b,direct_baseline,0.0,0.0,0.0,0.0,0.423,0.0411,0.0,0.423
+llama3.1:8b,least_to_most,0.0,0.0,0.0,0.0,0.3972,0.037,0.0,0.3972
+llama3.1:8b,no_instruction_control,0.0,0.0,0.0,0.0,0.4135,0.0296,0.0,0.4135
+llama3.1:8b,policy_first_structured,0.0,0.0,0.0,0.0,0.415,0.0323,0.0,0.415
+llama3.1:8b,skeleton_of_thought,0.0,0.0,0.0,0.0,0.455,0.0564,0.0,0.455
