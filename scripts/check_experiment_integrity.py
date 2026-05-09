@@ -170,7 +170,11 @@ def _check_summary_table(results: pd.DataFrame, run_dir: Path, complete_run: boo
 
 
 def _field_breakdown_expected(results: pd.DataFrame) -> pd.DataFrame:
-    field_cols = sorted(col for col in results.columns if col.startswith("leaked_"))
+    field_cols = sorted(
+        col
+        for col in results.columns
+        if col.startswith("leaked_") and col != "leaked_fields"
+    )
     if not field_cols:
         return pd.DataFrame()
     breakdown = (
