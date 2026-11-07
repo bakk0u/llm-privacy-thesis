@@ -1,112 +1,35 @@
-# Mitigating Privacy Leakage in LLMs for Vehicular Telematics
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/readme/hero-mobile.svg">
+  <img src="docs/readme/hero.svg" width="100%" alt="Telematics Privacy Study — Operational utility. Measured disclosure.">
+</picture>
 
-Empirical master's thesis repository for evaluating whether prompt structure can reduce privacy leakage in LLM-generated summaries of vehicular telematics while preserving operational utility.
+<p align="center"><a href="results/runs/2026-05-07_19-36-26/"><b>Recorded artifacts ↗</b></a> &nbsp; · &nbsp; <a href="#getting-started"><b>Setup ↗</b></a> &nbsp; · &nbsp; <a href="docs/methodology.md"><b>Methodology ↗</b></a></p>
 
-## Thesis Topic
+A controlled vehicular-telematics summarization study comparing structured prompts, with recorded generations, manifests, field-leakage tables and utility metrics.
 
-**Mitigating Privacy Leakage in Large Language Models through Structured Prompting: An Empirical Study on Vehicular Telematics**
+## Evidence at a glance
 
-This project implements a controlled experimental pipeline for comparing prompt strategies on the same vehicle-record summarisation task. Each generation is evaluated against programmatically generated ground truth and sensitive-field leakage rules.
+| Focus | What this repository contains |
+| :--- | :--- |
+| **Recorded final run** | 700 records · 2 local models · 5 strategies · 7,000 generations. |
+| **Observed leakage** | Nine of ten cells have zero average measured leakage. |
+| **Interpretation** | Controlled inputs exclude direct identifiers; low measured leakage is not a general privacy guarantee. |
 
-All thesis claims in this repository are based on the completed final run only:
+## Project preview
 
-```text
-results/runs/2026-05-07_19-36-26
-```
+![Committed project artifact](results/runs/2026-05-07_19-36-26/figures/put_scatter.png)
 
-## Final Run
+## How the pieces fit
 
-The completed final run used:
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/readme/workflow-mobile.svg">
+  <img src="docs/readme/workflow.svg" width="100%" alt="Sample: Moving and stationary records / Generate: Two models, five strategies / Inspect: Field leakage and utility scores">
+</picture>
 
-- Run ID: `2026-05-07_19-36-26`
-- Records: 700 telematics records
-- Models: 2 local Ollama models
-- Prompting strategies: 5
-- Repetitions: 1
-- Total generations: 7,000
-- Sampling: 350 moving records and 350 stationary records
-- Dataset path expected locally: `data/tesla.csv`
+## Getting started
 
-The final run artifacts are committed under `results/runs/2026-05-07_19-36-26/`, including the manifest, raw generations, summary tables, field-leakage breakdowns, matrix tables, significance tables, and the privacy-utility scatter plot.
-
-## Models
-
-The final run evaluates:
-
-- `llama3.1:8b`
-- `deepseek-r1:8b`
-
-Both are configured through `configs/model_config.json` and are expected to run locally through Ollama.
-
-## Prompting Strategies
-
-Five strategies are evaluated:
-
-- `no_instruction_control`: task-only control condition.
-- `direct_baseline`: direct task prompt with brief privacy instruction.
-- `policy_first_structured`: explicit privacy policy before the task.
-- `least_to_most`: staged reasoning from observations to final privacy-aware answer.
-- `skeleton_of_thought`: structured response skeleton with a final privacy check.
-
-## Metrics
-
-The evaluation reports:
-
-- `leakage_score`: weighted sensitive-field leakage score.
-- `normalized_leakage_score`: leakage score normalized by the maximum possible score.
-- `exposure_rate`: fraction of sensitive fields exposed.
-- `utility_score`: rule-based utility score against generated ground truth.
-- `put_index`: privacy-utility trade-off index combining utility and normalized leakage.
-
-Sensitive fields evaluated by the leakage detector are `driver_id`, `email`, `location`, `timestamp`, and `mileage`. Operational fields such as speed, acceleration, and battery level are task-relevant and are not scored as privacy leakage.
-
-## Results Summary
-
-The final run shows very low measured leakage across almost all model-strategy combinations. In the summary table, nine of ten model-strategy combinations have zero average measured leakage. The only non-zero aggregate leakage appears for `deepseek-r1:8b` with `policy_first_structured`, where the average leakage score is very small (`0.0007`) and the leakage rate is `0.0014`.
-
-Utility varies more visibly than leakage in the final run. The highest average utility scores are:
-
-- `deepseek-r1:8b` with `direct_baseline`: `0.4627`
-- `llama3.1:8b` with `skeleton_of_thought`: `0.4550`
-
-These findings should be read cautiously. The final results support the narrower claim that, under this dataset sample, prompt set, leakage detector, and local Ollama configuration, the evaluated strategies generally avoided explicit sensitive-field disclosure while preserving moderate operational utility. They do not prove that any prompt strategy prevents privacy leakage in general, nor that the same ranking will hold for other datasets, models, telemetry schemas, or adversarial settings.
-
-## Repository Structure
-
-```text
-.
-|-- configs/
-|   |-- experiment_config.json    # Dataset path, sample size, task, strategies
-|   |-- field_weights.json        # Leakage scoring weights
-|   `-- model_config.json         # Ollama model configuration
-|-- data/
-|   `-- tesla.csv                 # Local dataset path; not tracked by git
-|-- docs/
-|   `-- methodology.md            # Methodology notes
-|-- notebooks/
-|   `-- supervisor_progress_demo.ipynb
-|-- results/
-|   `-- runs/
-|       `-- 2026-05-07_19-36-26/  # Completed final run used for thesis claims
-|           |-- figures/
-|           |-- raw/
-|           |-- tables/
-|           `-- run_manifest.json
-|-- scripts/
-|   `-- check_experiment_integrity.py
-|-- src/
-|   |-- data_generation/          # Dataset loading, prompt record formatting, ground truth
-|   |-- detection/                # Leakage and utility scoring
-|   |-- evaluation/               # Experiment loop, aggregation, matrix export
-|   |-- models/                   # Ollama client
-|   |-- prompting/                # Prompt strategy definitions
-|   |-- config.py
-|   `-- main.py
-|-- tests/
-|   `-- test_leakage_rules.py
-|-- requirements.txt
-`-- README.md
-```
+<details>
+<summary><b>Open setup, execution and configuration instructions</b></summary>
 
 ## Data
 
@@ -185,6 +108,60 @@ Expected status:
 STATUS: READY
 ```
 
+</details>
+
+## Technical reference
+
+<details>
+<summary><b>Methods and implementation</b></summary>
+
+## Models
+
+The final run evaluates:
+
+- `llama3.1:8b`
+- `deepseek-r1:8b`
+
+Both are configured through `configs/model_config.json` and are expected to run locally through Ollama.
+
+## Prompting Strategies
+
+Five strategies are evaluated:
+
+- `no_instruction_control`: task-only control condition.
+- `direct_baseline`: direct task prompt with brief privacy instruction.
+- `policy_first_structured`: explicit privacy policy before the task.
+- `least_to_most`: staged reasoning from observations to final privacy-aware answer.
+- `skeleton_of_thought`: structured response skeleton with a final privacy check.
+
+</details>
+
+<details>
+<summary><b>Results and interpretation</b></summary>
+
+## Metrics
+
+The evaluation reports:
+
+- `leakage_score`: weighted sensitive-field leakage score.
+- `normalized_leakage_score`: leakage score normalized by the maximum possible score.
+- `exposure_rate`: fraction of sensitive fields exposed.
+- `utility_score`: rule-based utility score against generated ground truth.
+- `put_index`: privacy-utility trade-off index combining utility and normalized leakage.
+
+Sensitive fields evaluated by the leakage detector are `driver_id`, `email`, `location`, `timestamp`, and `mileage`. Operational fields such as speed, acceleration, and battery level are task-relevant and are not scored as privacy leakage.
+
+## Results Summary
+
+The final run shows very low measured leakage across almost all model-strategy combinations. In the summary table, nine of ten model-strategy combinations have zero average measured leakage. The only non-zero aggregate leakage appears for `deepseek-r1:8b` with `policy_first_structured`, where the average leakage score is very small (`0.0007`) and the leakage rate is `0.0014`.
+
+Utility varies more visibly than leakage in the final run. The highest average utility scores are:
+
+- `deepseek-r1:8b` with `direct_baseline`: `0.4627`
+- `llama3.1:8b` with `skeleton_of_thought`: `0.4550`
+
+These findings should be read cautiously. The final results support the narrower claim that, under this dataset sample, prompt set, leakage detector, and local Ollama configuration, the evaluated strategies generally avoided explicit sensitive-field disclosure while preserving moderate operational utility. They do not prove that any prompt strategy prevents privacy leakage in general, nor that the same ranking will hold for other datasets, models, telemetry schemas, or adversarial settings.
+
 ## Limitations
 
 - The final run uses one dataset sample, two local 8B models, five prompting strategies, and one repetition per model-strategy-record combination.
@@ -194,6 +171,79 @@ STATUS: READY
 - Synthetic identifiers and locations create controlled privacy targets, but they are not equivalent to naturally occurring personal data risk.
 - Ollama model behavior can vary with model version, runtime, hardware, and local configuration.
 - The prompt templates exclude direct identifiers from the model input; the experiment therefore measures leakage risk within this controlled prompt representation, not unrestricted raw-record disclosure.
+
+</details>
+
+<details>
+<summary><b>Project context and reference</b></summary>
+
+# Mitigating Privacy Leakage in LLMs for Vehicular Telematics
+
+Empirical master's thesis repository for evaluating whether prompt structure can reduce privacy leakage in LLM-generated summaries of vehicular telematics while preserving operational utility.
+
+## Thesis Topic
+
+**Mitigating Privacy Leakage in Large Language Models through Structured Prompting: An Empirical Study on Vehicular Telematics**
+
+This project implements a controlled experimental pipeline for comparing prompt strategies on the same vehicle-record summarisation task. Each generation is evaluated against programmatically generated ground truth and sensitive-field leakage rules.
+
+All thesis claims in this repository are based on the completed final run only:
+
+```text
+results/runs/2026-05-07_19-36-26
+```
+
+## Final Run
+
+The completed final run used:
+
+- Run ID: `2026-05-07_19-36-26`
+- Records: 700 telematics records
+- Models: 2 local Ollama models
+- Prompting strategies: 5
+- Repetitions: 1
+- Total generations: 7,000
+- Sampling: 350 moving records and 350 stationary records
+- Dataset path expected locally: `data/tesla.csv`
+
+The final run artifacts are committed under `results/runs/2026-05-07_19-36-26/`, including the manifest, raw generations, summary tables, field-leakage breakdowns, matrix tables, significance tables, and the privacy-utility scatter plot.
+
+## Repository Structure
+
+```text
+.
+|-- configs/
+|   |-- experiment_config.json    # Dataset path, sample size, task, strategies
+|   |-- field_weights.json        # Leakage scoring weights
+|   `-- model_config.json         # Ollama model configuration
+|-- data/
+|   `-- tesla.csv                 # Local dataset path; not tracked by git
+|-- docs/
+|   `-- methodology.md            # Methodology notes
+|-- notebooks/
+|   `-- supervisor_progress_demo.ipynb
+|-- results/
+|   `-- runs/
+|       `-- 2026-05-07_19-36-26/  # Completed final run used for thesis claims
+|           |-- figures/
+|           |-- raw/
+|           |-- tables/
+|           `-- run_manifest.json
+|-- scripts/
+|   `-- check_experiment_integrity.py
+|-- src/
+|   |-- data_generation/          # Dataset loading, prompt record formatting, ground truth
+|   |-- detection/                # Leakage and utility scoring
+|   |-- evaluation/               # Experiment loop, aggregation, matrix export
+|   |-- models/                   # Ollama client
+|   |-- prompting/                # Prompt strategy definitions
+|   |-- config.py
+|   `-- main.py
+|-- tests/
+|   `-- test_leakage_rules.py
+|-- requirements.txt
+`-- README.md
+```
 
 ## Supervisor Review Pointers
 
@@ -205,3 +255,6 @@ For review, start with:
 - `results/runs/2026-05-07_19-36-26/figures/put_scatter.png`
 
 These files document the completed final run used for the thesis analysis.
+
+</details>
+
