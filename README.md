@@ -17,7 +17,7 @@ A controlled vehicular-telematics summarization study comparing structured promp
 
 ## Project preview
 
-![Committed project artifact](results/runs/2026-05-07_19-36-26/figures/put_scatter.png)
+![Field leakage and utility across the recorded telematics runs](results/runs/2026-05-07_19-36-26/figures/put_scatter.png)
 
 ## How the pieces fit
 
